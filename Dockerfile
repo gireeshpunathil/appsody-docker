@@ -1,6 +1,8 @@
-FROM gcr.io/cloud-builders/docker
-RUN apt-get update && \
-      apt-get -y install sudo jq wget
-RUN wget https://github.com/appsody/appsody/releases/download/0.2.2/appsody_0.2.2_amd64.deb
+FROM quay.io/buildah/stable:latest
 COPY setupAndRunExtract.sh .
-RUN apt install -f ./appsody_0.2.2_amd64.deb
+RUN chmod +x setupAndRunExtract.sh
+RUN curl -L https://github.com/gireeshpunathil/appsody/blob/master/release/appsody.tar.gz?raw=true --output appsody.tar.gz
+RUN gunzip appsody.tar.gz
+RUN tar xvf appsody.tar
+RUN mv appsody /usr/bin
+RUN chmod +x /usr/bin/appsody
